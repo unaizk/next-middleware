@@ -1,12 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 let requestCount = 0
-export  function middleware(){
+export  function middleware(req : NextRequest){
 
-    requestCount++;
-    console.log(requestCount);
-    const res = NextResponse.next();
-    return res
-    
+    if(req.nextUrl.pathname.startsWith('/admin') ){
+        return NextResponse.redirect(new URL('/signup',req.url))
+    }
+    if(req.nextUrl.pathname.startsWith('/')){
+       return NextResponse.next()
+    }
 }
